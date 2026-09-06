@@ -141,10 +141,17 @@ Provider example (an OpenAI-compatible endpoint; note that some strict-JSON prov
 
 ```bash
 cat > ~/.local/share/omp/models.toml <<'TOML'
-[providers.bai]
-baseUrl = "https://api.b.ai/v1"
+[providers.unorouter]
+baseUrl = "https://api.unorouter.com/v1"
 auth = "bearer"
 disableStrictTools = true
+
+[providers.unorouter.models."kimi-k3-free"]
+id = "kimi-k3:free"
+name = "Kimi K3 (free, UnoRouter)"
+api = "openai-completions"
+contextWindow = 1000000
+maxTokens = 64000
 
 [providers.bai.models."glm-5.3-flash"]
 name = "GLM 5.3 Flash (b.ai free)"
@@ -159,8 +166,8 @@ echo "YOUR_API_KEY" | omp auth login bai
 Running:
 
 ```bash
-omp print --model glm-5.3-flash "hello"         # one-shot
-omp chat --model glm-5.3-flash                  # interactive chat with tools
+omp print --model kimi-k3-free "hello"       # one-shot
+omp chat --model kimi-k3-free                 # interactive chat with tools
 ```
 
 ## Patches

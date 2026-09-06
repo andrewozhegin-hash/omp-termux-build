@@ -1,9 +1,65 @@
 # Place at ~/.local/share/omp/models.toml
-# Example: OpenAI-compatible provider (b.ai). Some providers with strict
-# JSON-schema validation (Groq) reject omp's generated tool schemas —
-# disableStrictTools only lifts the strict flag, so prefer providers that
-# don't enforce additionalProperties:false on every object.
+#
+# OpenAI-compatible providers. Two things matter:
+#   1. The section name becomes the model selector you pass to --model —
+#      keep it colon-free (colons break local model resolution).
+#   2. The optional `id` field is the wire model name sent upstream —
+#      put the provider's real id there (e.g. "kimi-k3:free" on UnoRouter).
+#
+# Some providers with strict JSON-schema validation (Groq) reject omp's
+# generated tool schemas — prefer providers that don't enforce
+# additionalProperties:false on every object, or set disableStrictTools.
 
+# --- UnoRouter: 238 models, ~60 free text models (suffix ":free") ---
+# Get a key: https://unorouter.com
+[providers.unorouter]
+baseUrl = "https://api.unorouter.com/v1"
+auth = "bearer"
+disableStrictTools = true
+
+[providers.unorouter.models."claude-opus-4-8-free"]
+id = "claude-opus-4.8:free"
+name = "Claude Opus 4.8 (free)"
+api = "openai-completions"
+contextWindow = 1000000
+maxTokens = 32000
+
+[providers.unorouter.models."kimi-k3-free"]
+id = "kimi-k3:free"
+name = "Kimi K3 (free)"
+api = "openai-completions"
+contextWindow = 1000000
+maxTokens = 64000
+
+[providers.unorouter.models."gemini-3-6-flash-free"]
+id = "gemini-3.6-flash:free"
+name = "Gemini 3.6 Flash (free)"
+api = "openai-completions"
+contextWindow = 1000000
+maxTokens = 64000
+
+[providers.unorouter.models."glm-5-3-thinking-free"]
+id = "glm-5.3-thinking:free"
+name = "GLM 5.3 Thinking (free)"
+api = "openai-completions"
+contextWindow = 1000000
+maxTokens = 64000
+
+[providers.unorouter.models."nemotron-ultra-free"]
+id = "nemotron-3-ultra-550b-a55b:free"
+name = "Nemotron 3 Ultra 550B (free)"
+api = "openai-completions"
+contextWindow = 1048576
+maxTokens = 64000
+
+[providers.unorouter.models."qwen3-8-27b-free"]
+id = "qwen3.8-27b:free"
+name = "Qwen 3.8 27B (free)"
+api = "openai-completions"
+contextWindow = 262144
+maxTokens = 32000
+
+# --- b.ai example ---
 [providers.bai]
 baseUrl = "https://api.b.ai/v1"
 auth = "bearer"
@@ -11,12 +67,6 @@ disableStrictTools = true
 
 [providers.bai.models."glm-5.3-flash"]
 name = "GLM 5.3 Flash (b.ai free)"
-api = "openai-completions"
-contextWindow = 131072
-maxTokens = 32768
-
-[providers.bai.models."qwen3.8-flash"]
-name = "Qwen 3.8 Flash (b.ai free)"
 api = "openai-completions"
 contextWindow = 131072
 maxTokens = 32768
