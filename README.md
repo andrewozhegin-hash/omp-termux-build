@@ -160,7 +160,7 @@ contextWindow = 131072
 maxTokens = 32768
 TOML
 
-echo "YOUR_API_KEY" | omp auth login bai
+echo "YOUR_API_KEY" | omp auth login unorouter
 ```
 
 Running:
