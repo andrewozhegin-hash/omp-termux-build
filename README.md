@@ -10,7 +10,7 @@
 - `build-toolchain.sh` — assembles the nightly-2026-08-08 toolchain from official rust.org tarballs
 - `proot-glibc-lib2/` (generated) — a `/lib` stub directory for glibc binaries inside proot
 - `models.toml.example` — template for hooking up a custom OpenAI-compatible provider (b.ai, etc.)
-- Source patches — branch `omp2-termux-android-arm64-fixes` of the omp fork (see [Patches](#patches))
+- Source patches — snapshot repo [andrewozhegin-hash/omp-termux-src](https://github.com/andrewozhegin-hash/omp-termux-src) (branch `fixes-snapshot`), see [Patches](#patches)
 
 ## Quick start
 
@@ -63,9 +63,7 @@ How it works:
 ### 3. omp sources
 
 ```bash
-git clone -b omp2-termux-android-arm64 https://github.com/anatoli-tsinovoy/oh-my-pi omp2-src
-cd omp2-src
-# then apply the stability patches (see Patches section — or clone the patched fork directly)
+git clone -b fixes-snapshot https://github.com/andrewozhegin-hash/omp-termux-src omp2-src
 ```
 
 ### 4. Python for crates/py
@@ -132,7 +130,7 @@ omp chat --model glm-5.3-flash                  # interactive chat with tools
 
 ## Patches
 
-The `omp2-termux-android-arm64-fixes` branch on top of f15374e:
+The `fixes-snapshot` branch of [omp-termux-src](https://github.com/andrewozhegin-hash/omp-termux-src) — upstream f15374e plus the following changes:
 
 1. Removed all `#![feature(...)]` from crates/* (type_alias_impl_trait, impl_trait_in_assoc_type, duration_constructors, extend_one, min_specialization, core_intrinsics, const_eval_select, maybe_uninit_uninit_array_transpose)
 2. `type Future = impl Future<…>` (33 files) → `Pin<Box<dyn Future<…> + Send>>`; `fn call` bodies wrapped in `Box::pin(async move { … })` with the **synchronous prefix hoisted out** of the async block (otherwise `&mut self` borrows don't survive `'static`)
