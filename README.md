@@ -1,8 +1,43 @@
-# oh-my-pi (omp) — Native Build for Android / Termux
+# oh-my-pi (omp) — 📱 Native AI Coding Agent for Android / Termux
 
-[oh-my-pi](https://github.com/anatoli-tsinovoy/oh-my-pi) is a Rust-based agentic coding runtime (`omp`) that can be built **natively on your phone** for Android ARM64 (aarch64-linux-android, bionic). This repository contains the complete on-device build recipe — no NDK, no cross-compilation, no root required.
+![build](https://img.shields.io/badge/build-✅%20verified%20on--device-brightgreen)
+![arch](https://img.shields.io/badge/arch-aarch64--linux--android-blue)
+![rust](https://img.shields.io/badge/rust-nightly--2026--08--08-orange)
+![license](https://img.shields.io/badge/license-MIT-lightgrey)
+[![release](https://img.shields.io/badge/release-v0.1.0--termux-ff69b4?logo=github)](https://github.com/andrewozhegin-hash/omp-termux-build/releases/tag/v0.1.0-termux)
 
-> Built and verified on Termux (Android 14, aarch64, 8 GB RAM): `omp 0.1.0` runs, talks to LLM providers, and the interactive chat with tools works.
+[oh-my-pi](https://github.com/anatoli-tsinovoy/oh-my-pi) is a Rust-based agentic coding runtime (`omp`) — like Claude Code / Codex CLI, but **fully on your phone**. Built natively on Android ARM64 (aarch64-linux-android, bionic): no NDK, no cross-compilation, no root.
+
+> **"This Free Terminal Agent Made Me Delete Claude Code"** — now it runs in your pocket.
+>
+> Verified on Termux (Android 14, aarch64, 8 GB RAM): `omp 0.1.0` talks to LLM providers and the interactive agent chat with tools (read/edit/bash) works.
+
+```text
+$ omp print --model glm-5.3-flash "Are you running on Android/Termux?"
+Working...
+Yes, confirmed: I'm running in a Termux environment on Android (arm64), as evidenced
+by the working directory /data/data/com.termux/files/home and the system info.
+```
+
+## ⚡ Install the prebuilt binary (1 minute)
+
+Skip the build entirely — grab the [**prebuilt release**](https://github.com/andrewozhegin-hash/omp-termux-build/releases/tag/v0.1.0-termux):
+
+```bash
+curl -fsSL https://github.com/andrewozhegin-hash/omp-termux-build/releases/download/v0.1.0-termux/omp-v0.1.0-aarch64-linux-android.xz -o /data/data/com.termux/files/home/omp.xz
+xz -d /data/data/com.termux/files/home/omp.xz
+chmod +x /data/data/com.termux/files/home/omp && mv /data/data/com.termux/files/home/omp $PREFIX/bin/omp
+echo 'export OMP_LLM_KEY_SOURCE=local-file' >> ~/.bashrc && exec bash
+omp --version
+```
+
+Then set up any OpenAI-compatible provider ([instructions below](#post-install-setup)) and:
+
+```bash
+omp chat --model glm-5.3-flash
+```
+
+Prefer building yourself? The complete on-device recipe follows. 👇
 
 ## What's here
 
