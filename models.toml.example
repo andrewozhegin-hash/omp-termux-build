@@ -1,0 +1,22 @@
+# Place at ~/.local/share/omp/models.toml
+# Example: OpenAI-compatible provider (b.ai). Some providers with strict
+# JSON-schema validation (Groq) reject omp's generated tool schemas —
+# disableStrictTools only lifts the strict flag, so prefer providers that
+# don't enforce additionalProperties:false on every object.
+
+[providers.bai]
+baseUrl = "https://api.b.ai/v1"
+auth = "bearer"
+disableStrictTools = true
+
+[providers.bai.models."glm-5.3-flash"]
+name = "GLM 5.3 Flash (b.ai free)"
+api = "openai-completions"
+contextWindow = 131072
+maxTokens = 32768
+
+[providers.bai.models."qwen3.8-flash"]
+name = "Qwen 3.8 Flash (b.ai free)"
+api = "openai-completions"
+contextWindow = 131072
+maxTokens = 32768
